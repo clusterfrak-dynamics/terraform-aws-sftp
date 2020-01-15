@@ -28,11 +28,12 @@ resource "aws_iam_role_policy" "sftp_user_policy" {
 }
 
 resource "aws_transfer_user" "sftp_user" {
-  count     = length(var.sftp_users)
-  server_id = aws_transfer_server.sftp.id
-  user_name = var.sftp_users[count.index]["name"]
-  role      = aws_iam_role.sftp_user_role[count.index].arn
-  tags      = var.custom_tags
+  count          = length(var.sftp_users)
+  server_id      = aws_transfer_server.sftp.id
+  user_name      = var.sftp_users[count.index]["name"]
+  home_directory = var.sftp_users[count.index]["home_directory"]
+  role           = aws_iam_role.sftp_user_role[count.index].arn
+  tags           = var.custom_tags
 }
 
 resource "aws_transfer_ssh_key" "sftp_user_key" {
